@@ -10,6 +10,28 @@ man_cache = {}
 
 @router.post("/add_deliveryman", response_model=Feature)
 async def add_deliveryman(request: Request) -> Feature:
+    """ Args:
+            request: body should contain a geojson feature information as JSON
+                    {
+                        "type": "Feature",
+                        "geometry": {
+                            "type": "Point",
+                            "coordinates": [13.38272, 52.46385]
+                        },
+                        "properties": {
+                            "name": "jeff",
+                            "surname": "smith"
+                        }
+                    }
+
+        Returns:
+            Delivery man Feature
+
+        Raises:
+            HTTPException 400: If nothing passed
+            HTTPException 422: If invalid parameters passed
+
+    """
     request_data = await prepare_request_data(request)
 
     name = request_data["properties"]["name"]
