@@ -1,3 +1,16 @@
+"""
+Requested order gets a zone according to coordinates and a deliveryman.
+Adds a new order to cache. Then returns to the user.
+
+Functions:
+    deliver(request_data: Feature)
+
+Variables:
+    router
+    delivery_cache
+
+"""
+
 from fastapi import APIRouter
 from geojson_pydantic import Feature
 

@@ -1,3 +1,15 @@
+"""
+Adds a new zone to cache. Then returns to the user.
+
+Functions:
+    deliver(request_data: Feature)
+
+Variables:
+    router
+    delivery_cache
+
+"""
+
 from fastapi import APIRouter
 from geojson_pydantic import Feature
 

@@ -1,3 +1,14 @@
+"""
+Assign deliveryman to a new order.
+
+Functions:
+    assign_deliveryman(zone, order_id)
+
+Variables:
+    man_cache
+
+"""
+
 man_cache = {}
 
 

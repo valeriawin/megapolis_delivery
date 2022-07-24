@@ -1,3 +1,14 @@
+"""
+Identify zone to a new order or a new deliveryman.
+
+Functions:
+    identify_zone(coord_x, coord_y)
+
+Variables:
+    zone_cache
+
+"""
+
 zone_cache = {}
 
 
