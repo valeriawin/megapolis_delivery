@@ -47,7 +47,8 @@ async def deliver(request: Request) -> Feature:
     delivery_cache[order_id]["properties"]["zone"] = zone
 
     delivery_cache[order_id]["properties"]["deliveryman"] = assign_deliveryman(
-        delivery_cache[order_id]["properties"]["zone"]
+        delivery_cache[order_id]["properties"]["zone"],
+        order_id
     )
 
     return delivery_cache[order_id]

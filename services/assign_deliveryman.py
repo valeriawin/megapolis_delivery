@@ -1,9 +1,10 @@
 man_cache = {}
 
 
-def assign_deliveryman(zone):
+def assign_deliveryman(zone, order_id):
     """ Args:
             zone: Delivery zone of an order
+            order_id: Delivery order ID
 
         Returns:
             Deliveryman ID or "not-assigned" if no deliverymen in zone
@@ -25,6 +26,7 @@ def assign_deliveryman(zone):
         name = deliveryman["properties"]["name"]
         surname = deliveryman["properties"]["surname"]
         deliveryman_id = f"{name} {surname}"
+        man_cache[deliveryman_id]["properties"]["deliveries"].append(order_id)
 
         return deliveryman_id
 
