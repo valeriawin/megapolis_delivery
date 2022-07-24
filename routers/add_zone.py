@@ -42,9 +42,9 @@ async def add_zone(request: Request) -> Feature:
 
     new_zone_name = request_data["properties"]["zone_name"]
 
-    for zone_name in zone_cache:
+    for zone_name, zone_info in zone_cache.items():
         if zone_name == new_zone_name:
-            return zone_cache[zone_name]
+            return zone_info
 
     zone_cache[new_zone_name] = request_data
 
