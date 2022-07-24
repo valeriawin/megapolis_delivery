@@ -1,7 +1,6 @@
 from fastapi import APIRouter, Request
 from geojson_pydantic import Feature
 
-from services.request_data_service import prepare_request_data
 from services.zone_identification import identify_zone
 from services.assign_deliveryman import assign_deliveryman
 
@@ -11,9 +10,9 @@ delivery_cache = {}
 
 
 @router.post("/deliver", response_model=Feature)
-async def deliver(request: Request) -> Feature:
+async def deliver(request_data: Feature) -> Feature:
     """ Args:
-            request: body should contain a geojson feature information as JSON
+            request_data: body should contain a geojson feature information as JSON
                     {
                         "type": "Feature",
                         "geometry": {
@@ -33,7 +32,6 @@ async def deliver(request: Request) -> Feature:
             HTTPException 422: If invalid parameters passed
 
     """
-    request_data = await prepare_request_data(request)
 
     for delivery_info in delivery_cache.values():
         if delivery_info == request_data:
@@ -42,12 +40,12 @@ async def deliver(request: Request) -> Feature:
     order_id = len(delivery_cache)
     delivery_cache[order_id] = request_data
 
-    coordinates = delivery_cache[order_id]["geometry"]["coordinates"]
+    coordinates = delivery_cache[order_id].geometry.coordinates
     zone = identify_zone(*coordinates)
-    delivery_cache[order_id]["properties"]["zone"] = zone
+    delivery_cache[order_id].properties["zone"] = zone
 
-    delivery_cache[order_id]["properties"]["deliveryman"] = assign_deliveryman(
-        delivery_cache[order_id]["properties"]["zone"],
+    delivery_cache[order_id].properties["deliveryman"] = assign_deliveryman(
+        delivery_cache[order_id].properties["zone"],
         order_id
     )
 

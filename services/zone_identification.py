@@ -11,7 +11,7 @@ def identify_zone(coord_x, coord_y):
 
     """
     for zone, zone_info in zone_cache.items():
-        zone_coordinates = zone_info["geometry"]["coordinates"][0]
+        zone_coordinates = zone_info.geometry.coordinates[0]
         x_min = zone_coordinates[0][0]
         y_min = zone_coordinates[0][1]
         x_max = zone_coordinates[2][0]

@@ -1,16 +1,15 @@
-from fastapi import APIRouter, Request
+from fastapi import APIRouter
 from geojson_pydantic import Feature
 
-from services.request_data_service import prepare_request_data
 from services.zone_identification import zone_cache
 
 router = APIRouter()
 
 
 @router.post("/add_zone", response_model=Feature)
-async def add_zone(request: Request) -> Feature:
+async def add_zone(request_data: Feature) -> Feature:
     """ Args:
-            request: body should contain a geojson feature information as JSON
+            request_data: body should contain a geojson feature information as JSON
                     {
                         "type": "Feature",
                         "geometry": {
@@ -38,9 +37,8 @@ async def add_zone(request: Request) -> Feature:
             HTTPException 422: If invalid parameters passed
 
     """
-    request_data = await prepare_request_data(request)
 
-    new_zone_name = request_data["properties"]["zone_name"]
+    new_zone_name = request_data.properties["zone_name"]
 
     for zone_name, zone_info in zone_cache.items():
         if zone_name == new_zone_name:

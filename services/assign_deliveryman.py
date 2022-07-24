@@ -12,7 +12,7 @@ def assign_deliveryman(zone, order_id):
     """
     filtered_men = list(
         filter(
-            lambda man: (man["properties"]["zone"] == zone),
+            lambda man: (man.properties["zone"] == zone),
             man_cache.values()
         )
     )
@@ -20,13 +20,13 @@ def assign_deliveryman(zone, order_id):
     if len(filtered_men) > 0:
         deliveryman = sorted(
             filtered_men,
-            key=lambda man: len(man["properties"]["deliveries"])
+            key=lambda man: len(man.properties["deliveries"])
         )[0]
 
-        name = deliveryman["properties"]["name"]
-        surname = deliveryman["properties"]["surname"]
+        name = deliveryman.properties["name"]
+        surname = deliveryman.properties["surname"]
         deliveryman_id = f"{name} {surname}"
-        man_cache[deliveryman_id]["properties"]["deliveries"].append(order_id)
+        man_cache[deliveryman_id].properties["deliveries"].append(order_id)
 
         return deliveryman_id
 
