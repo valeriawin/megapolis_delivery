@@ -9,7 +9,7 @@ delivery_cache = {}
 
 
 @router.post("/deliver", response_model=Feature)
-async def add_zone(request: Request) -> Feature:
+async def deliver(request: Request) -> Feature:
     """ Args:
             request: body should contain a geojson feature information as JSON
                     {
