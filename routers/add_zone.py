@@ -1,6 +1,8 @@
 from fastapi import APIRouter, Request
 from geojson_pydantic import Feature
 
+from services.request_data_service import prepare_request_data
+
 router = APIRouter()
 
 zone_cache = {}
@@ -8,7 +10,7 @@ zone_cache = {}
 
 @router.post("/add_zone", response_model=Feature)
 async def add_zone(request: Request) -> Feature:
-    request_data = await request.json()
+    request_data = await prepare_request_data(request)
 
     new_zone_name = request_data["properties"]["zone_name"]
 

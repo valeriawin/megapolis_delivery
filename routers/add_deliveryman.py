@@ -1,6 +1,8 @@
 from fastapi import APIRouter, Request
 from geojson_pydantic import Feature
 
+from services.request_data_service import prepare_request_data
+
 router = APIRouter()
 
 man_cache = {}
@@ -8,7 +10,7 @@ man_cache = {}
 
 @router.post("/add_deliveryman", response_model=Feature)
 async def add_deliveryman(request: Request) -> Feature:
-    request_data = await request.json()
+    request_data = await prepare_request_data(request)
 
     name = request_data["properties"]["name"]
     surname = request_data["properties"]["surname"]
