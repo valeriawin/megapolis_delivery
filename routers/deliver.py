@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Request
+from fastapi import APIRouter
 from geojson_pydantic import Feature
 
 from services.zone_identification import identify_zone
@@ -12,7 +12,7 @@ delivery_cache = {}
 @router.post("/deliver", response_model=Feature)
 async def deliver(request_data: Feature) -> Feature:
     """ Args:
-            request_data: body should contain a geojson feature information as JSON
+            request_data: should contain a geojson feature information as JSON
                     {
                         "type": "Feature",
                         "geometry": {

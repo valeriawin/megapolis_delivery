@@ -12,7 +12,9 @@ app.include_router(deliver.router)
 
 @app.get("/")
 async def root():
-    return {"message": "Available Endpoints: /add_zone, /add_deliveryman, /deliver"}
+    return {
+        "message": "Available Endpoints: /add_zone, /add_deliveryman, /deliver"
+    }
 
 
 if __name__ == "__main__":

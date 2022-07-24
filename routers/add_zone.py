@@ -9,7 +9,7 @@ router = APIRouter()
 @router.post("/add_zone", response_model=Feature)
 async def add_zone(request_data: Feature) -> Feature:
     """ Args:
-            request_data: body should contain a geojson feature information as JSON
+            request_data: should contain a geojson feature information as JSON
                     {
                         "type": "Feature",
                         "geometry": {
