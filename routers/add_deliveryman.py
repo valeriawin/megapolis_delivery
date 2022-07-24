@@ -38,9 +38,9 @@ async def add_deliveryman(request: Request) -> Feature:
     surname = request_data["properties"]["surname"]
     new_man_id = f"{name} {surname}"
 
-    for man_id in man_cache:
+    for man_id, man_info in man_cache.items():
         if man_id == new_man_id:
-            return man_cache[man_id]
+            return man_info
 
     man_cache[new_man_id] = request_data
 
