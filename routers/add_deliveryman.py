@@ -3,10 +3,9 @@ from geojson_pydantic import Feature
 
 from services.request_data_service import prepare_request_data
 from services.zone_identification import identify_zone
+from services.assign_deliveryman import man_cache
 
 router = APIRouter()
-
-man_cache = {}
 
 
 @router.post("/add_deliveryman", response_model=Feature)
