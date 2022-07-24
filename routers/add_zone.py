@@ -37,7 +37,7 @@ async def add_zone(request_data: Feature) -> Feature:
                             ]
                         },
                         "properties": {
-                            "zone_name": "south east"
+                            "uuid": "a551cce6-b79d-4385-be27-d4d822b1e301"
                         }
                     }
 
@@ -49,13 +49,10 @@ async def add_zone(request_data: Feature) -> Feature:
             HTTPException 422: If invalid parameters passed
 
     """
+    zone_uuid = request_data.properties["uuid"]
+    if zone_info := zone_cache.get(zone_uuid):
+        return zone_info
 
-    new_zone_name = request_data.properties["zone_name"]
+    zone_cache[zone_uuid] = request_data
 
-    for zone_name, zone_info in zone_cache.items():
-        if zone_name == new_zone_name:
-            return zone_info
-
-    zone_cache[new_zone_name] = request_data
-
-    return zone_cache[new_zone_name]
+    return zone_cache[zone_uuid]

@@ -33,7 +33,7 @@ async def deliver(request_data: Feature) -> Feature:
                             "coordinates": [13.38272, 52.46385]
                         },
                         "properties": {
-                            "order": "iPhone 13 256gb"
+                            "uuid": "66ce9b2b-1a71-4209-8e86-0fa2e457d4f1"
                         }
                     }
 
@@ -45,21 +45,19 @@ async def deliver(request_data: Feature) -> Feature:
             HTTPException 422: If invalid parameters passed
 
     """
+    order_uuid = request_data.properties["uuid"]
+    if delivery_info := delivery_cache.get(order_uuid):
+        return delivery_info
 
-    for delivery_info in delivery_cache.values():
-        if delivery_info == request_data:
-            return delivery_info
+    delivery_cache[order_uuid] = request_data
 
-    order_id = len(delivery_cache)
-    delivery_cache[order_id] = request_data
+    coordinates = delivery_cache[order_uuid].geometry.coordinates
+    zone_uuid = identify_zone(*coordinates)
+    delivery_cache[order_uuid].properties["zone_uuid"] = zone_uuid
 
-    coordinates = delivery_cache[order_id].geometry.coordinates
-    zone = identify_zone(*coordinates)
-    delivery_cache[order_id].properties["zone"] = zone
-
-    delivery_cache[order_id].properties["deliveryman"] = assign_deliveryman(
-        delivery_cache[order_id].properties["zone"],
-        order_id
+    delivery_cache[order_uuid].properties["deliveryman"] = assign_deliveryman(
+        zone_uuid,
+        order_uuid
     )
 
-    return delivery_cache[order_id]
+    return delivery_cache[order_uuid]

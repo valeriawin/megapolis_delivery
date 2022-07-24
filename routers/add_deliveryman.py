@@ -31,8 +31,7 @@ async def add_deliveryman(request_data: Feature) -> Feature:
                             "coordinates": [13.38272, 52.46385]
                         },
                         "properties": {
-                            "name": "jeff",
-                            "surname": "smith"
+                            "uuid": "2c1bd651-6b36-4a4d-99bb-064afb130dbc"
                         }
                     }
 
@@ -44,20 +43,15 @@ async def add_deliveryman(request_data: Feature) -> Feature:
             HTTPException 422: If invalid parameters passed
 
     """
+    man_uuid = request_data.properties["uuid"]
+    if man_info := man_cache.get(man_uuid):
+        return man_info
 
-    name = request_data.properties["name"]
-    surname = request_data.properties["surname"]
-    new_man_id = f"{name} {surname}"
-
-    for man_id, man_info in man_cache.items():
-        if man_id == new_man_id:
-            return man_info
-
-    man_cache[new_man_id] = request_data
+    man_cache[man_uuid] = request_data
 
     coordinates = request_data.geometry.coordinates
-    man_cache[new_man_id].properties["zone"] = identify_zone(*coordinates)
+    man_cache[man_uuid].properties["zone"] = identify_zone(*coordinates)
 
-    man_cache[new_man_id].properties["deliveries"] = []
+    man_cache[man_uuid].properties["deliveries"] = []
 
-    return man_cache[new_man_id]
+    return man_cache[man_uuid]

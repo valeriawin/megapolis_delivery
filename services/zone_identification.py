@@ -12,7 +12,7 @@ Variables:
 zone_cache = {}
 
 
-def identify_zone(coord_x, coord_y):
+def identify_zone(coord_x: float, coord_y: float) -> int:
     """ Args:
             coord_x - coordinate X of a Point
             coord_y - coordinate Y of a Point

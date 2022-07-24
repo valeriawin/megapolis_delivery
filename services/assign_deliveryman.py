@@ -12,7 +12,7 @@ Variables:
 man_cache = {}
 
 
-def assign_deliveryman(zone, order_id):
+def assign_deliveryman(zone: int, order_id: int) -> int:
     """ Args:
             zone: Delivery zone of an order
             order_id: Delivery order ID
