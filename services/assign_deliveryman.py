@@ -12,10 +12,10 @@ Variables:
 man_cache = {}
 
 
-def assign_deliveryman(zone: int, order_id: int) -> int:
+def assign_deliveryman(zone_uuid: str, order_uuid: str) -> str:
     """ Args:
-            zone: Delivery zone of an order
-            order_id: Delivery order ID
+            zone_uuid: Delivery zone of an order uuid
+            order_uuid: Delivery order uuid
 
         Returns:
             Deliveryman ID or "not-assigned" if no deliverymen in zone
@@ -23,7 +23,7 @@ def assign_deliveryman(zone: int, order_id: int) -> int:
     """
     filtered_men = list(
         filter(
-            lambda man: (man.properties["zone"] == zone),
+            lambda man: (man.properties["zone_uuid"] == zone_uuid),
             man_cache.values()
         )
     )
@@ -34,11 +34,9 @@ def assign_deliveryman(zone: int, order_id: int) -> int:
             key=lambda man: len(man.properties["deliveries"])
         )[0]
 
-        name = deliveryman.properties["name"]
-        surname = deliveryman.properties["surname"]
-        deliveryman_id = f"{name} {surname}"
-        man_cache[deliveryman_id].properties["deliveries"].append(order_id)
+        man_uuid = deliveryman.properties["uuid"]
+        man_cache[man_uuid].properties["deliveries"].append(order_uuid)
 
-        return deliveryman_id
+        return man_uuid
 
     return "not-assigned"
