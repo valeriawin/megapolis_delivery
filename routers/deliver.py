@@ -2,6 +2,7 @@ from fastapi import APIRouter, Request
 from geojson_pydantic import Feature
 
 from services.request_data_service import prepare_request_data
+from services.zone_identification import identify_zone
 
 router = APIRouter()
 
@@ -40,7 +41,9 @@ async def deliver(request: Request) -> Feature:
     order_id = len(delivery_cache)
     delivery_cache[order_id] = request_data
 
-    delivery_cache[order_id]["properties"]["zone"] = "non-zone"
+    coordinates = delivery_cache[order_id]["geometry"]["coordinates"]
+    zone = identify_zone(*coordinates)
+    delivery_cache[order_id]["properties"]["zone"] = zone
 
     delivery_cache[order_id]["properties"]["deliveryman"] = "not-assigned"
 
